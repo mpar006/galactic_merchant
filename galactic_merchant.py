@@ -19,11 +19,17 @@ class Merchant:
         if nn:
             self.c.addSymbol(nn.group(1), nn.group(2))
         elif ni:
-            self.w.addItem(ni.group(2), int(self.c.galacticToHA(ni.group(1))) / int(ni.group(3)))
+            self.w.addItem(ni.group(2), int(ni.group(3))
+                / float(self.c.galacticToHA(ni.group(1))))
         elif co:
-            self.c.galacticToHA(co.group(1))
+            self.c.show()
+            print co.group(1) + " is " + str(self.c.galacticToHA(co.group(1)))
         elif p:
-            self.w.cost(p.group(2), p.group(1))
+            print p.group(1) + " " + p.group(2) + " is " + \
+                str(self.w.cost(p.group(2), float(self.c.galacticToHA(p.group(1))))) \
+                + " Credits"
+        else:
+            print "I have no idea what you are talking about"
 
 class Warehouse:
 
