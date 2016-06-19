@@ -1,0 +1,28 @@
+Class structure:
+
+Merchant:
+Responsibilities - develops parameters for converter (i.e. tells converter
+                   "glob" == L)
+                 - handles query and returns result
+Collaborators    - aggregates converter
+                 - depends on query
+
+Converter:
+Responsibilities - keeps mapping of galactic to roman numerals
+                 - takes a roman numeral and returns a hindu-arabic number
+Collaborators    - is aggregated by merchant
+
+Material:
+Responsibilities - keeps track of prices of individual goods
+Collaborators    - is aggregated by query
+
+Query:
+Responsibilities - calculates cost of a material given by a galactic
+                   number
+                 - can answer queries about converting galactic numbers
+                   to hindu-arabic numbers
+Collaborators    - depends on converter
+                 - aggregates material
+
+Assumptions:
+- Most recent cost of an item is taken to be the actual cost
