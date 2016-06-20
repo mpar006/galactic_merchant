@@ -79,8 +79,53 @@ class convertTests(unittest.TestCase):
     def testRepeatV(self):
         self.assertRaises(ValueError, self.c.romanToHA, "V" * 2)
 
-    def testSubI(self):
+    def testSubIL(self):
         self.assertRaises(ValueError, self.c.romanToHA, "IL")
+
+    def testSubIC(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "IC")
+    
+    def testSubID(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "ID")
+
+    def testSubIM(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "IM")
+
+    def testSubXD(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "XD")
+
+    def testSubXM(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "XM")
+  
+    def testSubVM(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "VM")
+
+    def testSubVD(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "VD")
+    
+    def testSubVC(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "VC")
+
+    def testSubVD(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "VD")
+
+    def testSubVM(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "VM")
+
+    def testSubLC(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "LC")
+
+    def testSubLD(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "LD")
+
+    def testSubLM(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "LM")
+
+    def testSubDM(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "DM")
+
+    def testSubIIX(self):
+        self.assertRaises(ValueError, self.c.romanToHA, "IIX")
 
 def main():
     unittest.main()
