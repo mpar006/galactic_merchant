@@ -1,40 +1,51 @@
 import unittest
 import galactic_merchant as gm
+import sys
+from StringIO import StringIO
 
-#class MerchantTests(unittest.TestCase):
-#    def setUp(self):
-#        self.m = gm.Merchant()
-#        self.m.process("foo is I")
-#        self.m.process("goo is V")
-#        self.m.process("hoo is X")
-#        self.m.process("ioo is L")
-#        self.m.process("hoo foo hoo cat is 95 Credits")
-#        self.m.process("how many Credits is foo goo cat ?")
-#
-#    def testAddGalactic(self):
-#        self.assertEqual(self.m.c.show(), "IOO=>L,HOO=>X,GOO=>V,FOO=>I,")
-#
-#    def testAddItem(self):
-#        self.assertEqual(self.m.w.show(), "CAT=>5,")
-#
-#    def testCost(self):
-#        self.assertEqual(self.m.w.cost("cat", 4), 20)
-#
-#    def testConvert(self):
-#        self.assertEqual(self.m.c.galacticToHA("hoo ioo foo"), 41)
+
+class MerchantTests(unittest.TestCase):
+    def setUp(self):
+        self.saved_stdout = sys.stdout
+        self.out = StringIO()
+        sys.stdout = self.out
+
+        self.m = gm.Merchant()
+        self.m.process("foo is I")
+        self.m.process("goo is V")
+        self.m.process("hoo is X")
+        self.m.process("ioo is L")
+        self.m.process("hoo foo hoo cat is 95 Credits")
+
+    def tearDown(self):
+        sys.stdout = self.saved_stdout
+
+    def testAddGalactic(self):
+        self.assertEqual(self.m.c.show(), "IOO=>L,HOO=>X,GOO=>V,FOO=>I,")
+
+    def testAddItem(self):
+        self.assertEqual(self.m.w.show(), "CAT=>5,")
+
+    def testCostEnquiry(self):
+        self.m.process("how many Credits is foo goo cat ?")
+        self.assertEqual(self.out.getvalue(), "foo goo cat is 20 Credits\n")
+
+    def testConvertEnquiry(self):
+        self.m.process("how much is hoo ioo foo ?")
+        self.assertEqual(self.out.getvalue(), "hoo ioo foo is 41\n")
+
 
 class WarehouseTests(unittest.TestCase):
     def setUp(self):
         self.w = gm.Warehouse()
         self.w.addItem("silver", 5)
-        self.w.addItem("gold", 15)
-        self.w.addItem("engine", 75)
 
     def testCost(self):
         self.assertEqual(self.w.cost("silver", 3), 15)
 
     def testNoSuchItem(self):
         self.assertRaises(ValueError, self.w.cost, "beef", 5)
+
 
 class convertTests(unittest.TestCase):
     def setUp(self):
@@ -46,11 +57,14 @@ class convertTests(unittest.TestCase):
 
     def testGalacticToRoman(self):
         self.assertEqual(self.c.galacticToRoman("pish tegj glob prok"),
-            "XLIV")
+                         "XLIV")
+
+    def testInvalidGalacticToRoman(self):
+        self.assertRaises(ValueError, self.c.galacticToHA, "hoo goo goo")
 
     def testGalacticToHA(self):
         self.assertEqual(self.c.galacticToHA("tegj pish prok glob glob glob"),
-            68)
+                         68)
 
     def test1903(self):
         self.assertEqual(self.c.romanToHA("MCMIII"), 1903)
@@ -84,7 +98,7 @@ class convertTests(unittest.TestCase):
 
     def testSubIC(self):
         self.assertRaises(ValueError, self.c.romanToHA, "IC")
-    
+ 
     def testSubID(self):
         self.assertRaises(ValueError, self.c.romanToHA, "ID")
 
@@ -96,13 +110,13 @@ class convertTests(unittest.TestCase):
 
     def testSubXM(self):
         self.assertRaises(ValueError, self.c.romanToHA, "XM")
-  
+
     def testSubVM(self):
         self.assertRaises(ValueError, self.c.romanToHA, "VM")
 
     def testSubVD(self):
         self.assertRaises(ValueError, self.c.romanToHA, "VD")
-    
+ 
     def testSubVC(self):
         self.assertRaises(ValueError, self.c.romanToHA, "VC")
 
@@ -126,6 +140,7 @@ class convertTests(unittest.TestCase):
 
     def testSubIIX(self):
         self.assertRaises(ValueError, self.c.romanToHA, "IIX")
+
 
 def main():
     unittest.main()
